@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Candidate Details Form</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+@page{size:A4;margin:12mm;}
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f4f8;
+margin:0;
+}
+
+#wrap{display:flex;justify-content:center;padding:15px;}
+#form{
+width:210mm;
+background:#fff;
+padding:18mm;
+box-sizing:border-box;
+}
+
+h2{text-align:center;color:#1f3d6b;margin-bottom:14px;}
+
+.section{margin-top:16px;break-inside:avoid;}
+
+.title{
+background:#1f3d6b;
+color:#fff;
+padding:7px 10px;
+font-size:14px;
+font-weight:600;
+margin-bottom:6px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+input,textarea,select{
+border:1px solid #999;
+padding:7px;
+font-size:13px;
+width:100%;
+box-sizing:border-box;
+}
+
+textarea{
+height:80px;
+resize:none;
+}
+
+.box{
+border:1px solid #bbb;
+padding:10px;
+margin-top:10px;
+}
+
+.add-btn{
+background:#2d7d46;
+color:white;
+border:none;
+padding:6px 12px;
+font-size:13px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.note{font-size:12px;color:#555;font-style:italic;}
+.warn{font-size:12px;color:#b00000;margin-top:6px;}
+
+.submit{
+margin:20px auto;
+display:block;
+width:780px;
+background:#1f3d6b;
+color:white;
+padding:12px;
+border:none;
+font-size:15px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="wrap">
+<div id="form">
+
+<h2>Candidate Details Form</h2>
+
+<!-- Personal Details -->
+<div class="section">
+<div class="title">Personal Details</div>
+
+<div class="grid">
+<input id="fullName" placeholder="Name as per Aadhaar">
+<select>
+<option>Gender</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+<input placeholder="Date of Birth">
+<input placeholder="Age">
+<input placeholder="Marital Status">
+<input placeholder="Blood Group">
+</div>
+
+<textarea placeholder="Permanent Address (House No, Street, Area, City, State, PIN Code)"></textarea>
+</div>
+
+<!-- Company Experience -->
+<div class="section">
+<div class="title">Company Experience</div>
+
+<p class="note">
+Please complete this section only if you have prior work experience.
+If you do not have any previous employment history, you may leave this section blank.
+</p>
+
+<div id="companyContainer"></div>
+<button class="add-btn" onclick="addCompany()">+ Add Company</button>
+</div>
+
+<!-- Education -->
+<div class="section">
+<div class="title">Highest Graduation</div>
+<div class="grid">
+<input placeholder="Degree Name">
+<input placeholder="Branch Name">
+<input placeholder="College Name">
+<input placeholder="College Address">
+<input placeholder="University Name">
+<input placeholder="University Address">
+<input placeholder="Percentage">
+<input placeholder="Duration">
+<input placeholder="Completion Delay (if any)">
+</div>
+</div>
+
+<div class="section">
+<div class="title">Graduation</div>
+<div class="grid">
+<input placeholder="Degree Name">
+<input placeholder="Branch Name">
+<input placeholder="College Name">
+<input placeholder="College Address">
+<input placeholder="University Address">
+<input placeholder="Percentage">
+<input placeholder="Duration">
+<input placeholder="Completion Delay (if any)">
+</div>
+</div>
+
+<div class="section">
+<div class="title">Intermediate / Diploma</div>
+<div class="grid">
+<input placeholder="Intermediate or Diploma">
+<input placeholder="Branch Name">
+<input placeholder="College Name">
+<input placeholder="College Address">
+<input placeholder="Board or University Name">
+<input placeholder="Board Address">
+<input placeholder="Percentage">
+<input placeholder="Duration">
+<input placeholder="Completion Delay (if any)">
+</div>
+</div>
+
+<div class="section">
+<div class="title">10th Standard</div>
+<div class="grid">
+<input placeholder="School Name">
+<input placeholder="School Address">
+<input placeholder="Board Name">
+<input placeholder="Board Address">
+<input placeholder="Percentage">
+<input placeholder="Duration">
+</div>
+</div>
+
+<!-- Family Details -->
+<div class="section">
+<div class="title">Family Details</div>
+
+<div class="grid">
+<input placeholder="Father Name">
+<input placeholder="Father Age">
+<input placeholder="Mother Name">
+<input placeholder="Mother Age">
+</div>
+
+<div id="siblingContainer"></div>
+<button class="add-btn" onclick="addSibling()">+ Add Sibling</button>
+</div>
+
+<!-- Contact & Banking -->
+<div class="section">
+<div class="title">Contact & Banking</div>
+
+<div class="grid">
+<input placeholder="SIM Number">
+<input placeholder="Aadhaar Number">
+<input placeholder="PAN Number">
+<input placeholder="Bank Account Number">
+<input placeholder="Name as per Bank Records">
+<input placeholder="Passport Number">
+<input placeholder="WhatsApp Number">
+<input placeholder="Professional Email ID">
+</div>
+
+<p class="warn">
+SIM number must not be registered on job portals like Naukri, LinkedIn, Indeed, Monster etc.
+</p>
+
+<p class="note">
+Please create a new professional email ID and share it with us for official communication.
+</p>
+</div>
+
+</div>
+</div>
+
+<button class="submit" onclick="downloadPDF()">Submit & Download PDF</button>
+
+<script>
+function addCompany(){
+const c=document.createElement("div");
+c.className="box";
+c.innerHTML=`
+<div class="grid">
+<input placeholder="Company Name">
+<input placeholder="Payroll Company">
+<input placeholder="Designation">
+<input placeholder="Joining Date">
+<input placeholder="Last Working Date">
+<input placeholder="CTC">
+<input placeholder="Monthly Gross">
+<input placeholder="In-hand Salary">
+<input placeholder="Experience in this Company">
+</div>`;
+document.getElementById("companyContainer").appendChild(c);
+}
+
+function addSibling(){
+const s=document.createElement("div");
+s.className="box";
+s.innerHTML=`
+<div class="grid">
+<input placeholder="Sibling Name">
+<input placeholder="Sibling Age">
+</div>`;
+document.getElementById("siblingContainer").appendChild(s);
+}
+
+function downloadPDF(){
+let name=document.getElementById("fullName").value.trim();
+if(name===""){alert("Please enter Full Name first");return;}
+
+let safe=name.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g,"_");
+
+html2pdf().set({
+filename:safe+"_details.pdf",
+html2canvas:{scale:2,scrollY:0},
+jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+}).from(document.getElementById("form")).save();
+}
+</script>
+
+</body>
+</html>
